@@ -1,50 +1,13 @@
 import {
-  type User, type InsertUser,
-  type Transaction, type InsertTransaction,
-  type Budget, type InsertBudget,
-  type SavingsGoal, type InsertSavingsGoal,
-  type Contract, type InsertContract,
-  type CryptoHolding, type InsertCryptoHolding
+  users, type User, type InsertUser,
+  transactions, type Transaction, type InsertTransaction,
+  budgets, type Budget, type InsertBudget,
+  savingsGoals, type SavingsGoal, type InsertSavingsGoal,
+  contracts, type Contract, type InsertContract,
+  cryptoHoldings, type CryptoHolding, type InsertCryptoHolding
 } from "@shared/schema";
 
-export interface IStorage {
-  // User operations
-  getUser(id: number): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
-  updateUserBalance(id: number, amount: number): Promise<User | undefined>;
-  
-  // Transaction operations
-  getTransactions(userId: number): Promise<Transaction[]>;
-  getTransaction(id: number): Promise<Transaction | undefined>;
-  createTransaction(transaction: InsertTransaction): Promise<Transaction>;
-  
-  // Budget operations
-  getBudgets(userId: number): Promise<Budget[]>;
-  getBudget(id: number): Promise<Budget | undefined>;
-  createBudget(budget: InsertBudget): Promise<Budget>;
-  updateBudget(id: number, spent: number): Promise<Budget | undefined>;
-  
-  // Savings goals operations
-  getSavingsGoals(userId: number): Promise<SavingsGoal[]>;
-  getSavingsGoal(id: number): Promise<SavingsGoal | undefined>;
-  createSavingsGoal(goal: InsertSavingsGoal): Promise<SavingsGoal>;
-  updateSavingsGoalProgress(id: number, amount: number): Promise<SavingsGoal | undefined>;
-  
-  // Contracts operations
-  getContracts(userId: number): Promise<Contract[]>;
-  getContract(id: number): Promise<Contract | undefined>;
-  createContract(contract: InsertContract): Promise<Contract>;
-  updateContract(id: number, contract: Partial<InsertContract>): Promise<Contract | undefined>;
-  deleteContract(id: number): Promise<boolean>;
-  
-  // Crypto holdings operations
-  getCryptoHoldings(userId: number): Promise<CryptoHolding[]>;
-  getCryptoHolding(id: number): Promise<CryptoHolding | undefined>;
-  createCryptoHolding(holding: InsertCryptoHolding): Promise<CryptoHolding>;
-  updateCryptoHolding(id: number, price: number): Promise<CryptoHolding | undefined>;
-  deleteCryptoHolding(id: number): Promise<boolean>;
-}
+import { IStorage } from "./storage";
 
 /**
  * In-Memory Speicherimplementierung
@@ -434,10 +397,3 @@ export class MemStorage implements IStorage {
     this.nextId.cryptoHoldings = 3;
   }
 }
-
-// Datenbankimplementierung (für zukünftige Verwendung)
-// export class DatabaseStorage implements IStorage {
-//   // ... (Implementation später)
-// }
-
-export const storage = new MemStorage();
