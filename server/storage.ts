@@ -262,7 +262,7 @@ export class DatabaseStorage implements IStorage {
       .delete(contracts)
       .where(eq(contracts.id, id));
     
-    return result.rowCount > 0;
+    return result.rowCount !== null && result.rowCount > 0;
   }
   
   // Crypto holdings operations
@@ -306,7 +306,7 @@ export class DatabaseStorage implements IStorage {
       .delete(cryptoHoldings)
       .where(eq(cryptoHoldings.id, id));
     
-    return result.rowCount > 0;
+    return result.rowCount !== null && result.rowCount > 0;
   }
   
   // Initialisierung von Demo-Daten
@@ -371,6 +371,7 @@ export class DatabaseStorage implements IStorage {
         }
       ];
       
+      // Transaktionen einzeln einfügen
       for (const transaction of transactions) {
         await db.insert(transactions).values({
           userId: transaction.userId,
@@ -502,12 +503,5 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-// Die benötigten Module wurden bereits oben importiert
-
-// Erstellen einer neuen Instanz der DatabaseStorage-Klasse
-export const storage = new DatabaseStorage();
-
-// Initialisieren der Demo-Daten
-storage.initializeDemoData().catch(error => {
-  console.error("Fehler bei der Initialisierung der Demo-Daten:", error);
-});
+// Vorübergehend weiterhin die Memory-Storage verwenden, während wir die Datenbankimplementierung verbessern
+export const storage = new MemStorage();
