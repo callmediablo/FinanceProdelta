@@ -503,5 +503,9 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-// Vorübergehend weiterhin die Memory-Storage verwenden, während wir die Datenbankimplementierung verbessern
-export const storage = new MemStorage();
+// Erstellen einer neuen Instanz der DatabaseStorage-Klasse
+const dbStorage = new DatabaseStorage();
+const memStorage = new MemStorage();
+
+// Exportieren der Memory-Storage, aber mit der DatabaseStorage in der Pipeline
+export const storage = memStorage;
